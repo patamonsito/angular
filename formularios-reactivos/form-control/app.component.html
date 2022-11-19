@@ -1,0 +1,55 @@
+<form (ngSubmit)="sendDestinatario()" [formGroup]="formDestinatario">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="row card-body">
+                    <label for="rutDestinatario">RUT destinatario</label><br>
+                    <input AppFormatRut formControlName="rut" type="text" class="form-control" placeholder="Ingrese un RUT" maxlength="12" minlength="11" autocomplete="off" (keyup)="verificarRut()">
+                    <span *ngIf="rut?.touched && rut?.errors?.rut_invalido" class="text-invalid">
+                        El RUT ingresado no es válido. Por favor vuelva a ingresar el RUT
+                    </span>
+                    <label for="nombre" *ngIf="!isPersona">Razon Social</label>
+                    <label for="nombre" *ngIf="isPersona">Nombre y Apellido</label><br>
+                    <input type="text" formControlName="nombre" class="form-control" placeholder="Ingrese nombre del destinatario" maxlength="50">
+                    <span *ngIf="nombre?.touched && nombre?.errors?.required" class="text-invalid">
+                        El Nombre es obligatorio.
+                    </span>
+                    <label for="banco">Banco</label><br>
+                    <select formControlName="banco" class="form-control" >
+                        <option value="" disabled selected>Seleccione el Banco</option>
+                        <option *ngFor="let banco of bancos" [value]="banco.nombre">{{banco.nombre}}</option>
+                    </select>
+                    <span *ngIf="banco?.touched && banco?.errors?.required" class="text-invalid">
+                        El Banco es obligatorio.
+                    </span>
+                    <label for="tipo">Tipo de cuenta</label><br>
+                    <select formControlName="tipo" class="form-control" placeholder="Seleccione Tipo de Cuenta">
+                        <option value="" disabled selected>Seleccione Tipo de Cuenta</option>
+                        <option *ngFor="let tipo of tipos" [value]="tipo.descripcion">{{tipo.descripcion}}</option>
+                    </select>
+                    <span *ngIf="tipo?.touched && tipo?.errors?.required" class="text-invalid">
+                        El Tipo de cuenta es obligatorio.
+                    </span>
+                    <label for="numero">Número de Cuenta</label><br>
+                    <input type="text" formControlName="numero" class="form-control" placeholder="Ingresa el numero de la cuenta"  maxlength="16">
+                    <span *ngIf="numero?.touched && numero?.errors?.required" class="text-invalid">
+                        El Número de cuenta es obligatorio.
+                    </span>
+                    <label for="email">Email</label><br>
+                    <input type="text" formControlName="email" class="form-control" placeholder="Ingresa un email"  maxlength="50">
+                    <label for="email">Telefono</label><br>
+                    <input type="text" formControlName="telefono" class="form-control" placeholder="Telefono"  maxlength="10">
+                </div>
+            </div>
+            <br>
+            <div class="btn-group" *ngIf="!creandoDestinatario">
+                <button class="btn-custom-orange" style="margin-right: 1rem;" (click)="nuevoDestinatario = false">Volver</button>
+                <button class="btn-custom" [disabled]="formDestinatario.invalid">Agregar</button>
+            </div>
+            <div class="btn-group" *ngIf="creandoDestinatario">
+                <p>Creando Destinatario por espere...</p>
+            </div>
+
+        </div>
+    </div>
+    </form>
